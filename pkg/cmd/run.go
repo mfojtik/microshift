@@ -3,6 +3,8 @@ package cmd
 import (
 	"context"
 	"errors"
+	"github.com/openshift/library-go/pkg/controller/controllercmd"
+	"github.com/spf13/pflag"
 	"os"
 	"os/signal"
 	"path/filepath"
@@ -18,9 +20,8 @@ import (
 	"github.com/openshift/microshift/pkg/servicemanager"
 	"github.com/openshift/microshift/pkg/sysconfwatch"
 	"github.com/openshift/microshift/pkg/util"
+	"github.com/openshift/microshift/pkg/version"
 	"github.com/spf13/cobra"
-	"github.com/spf13/pflag"
-
 	"k8s.io/klog/v2"
 )
 
@@ -28,18 +29,21 @@ const (
 	gracefulShutdownTimeout = 60
 )
 
-func NewRunMicroshiftCommand() *cobra.Command {
+func NewRunMicroshiftCommand(ctx context.Context) *cobra.Command {
 	cfg := config.NewMicroshiftConfig()
+	var flags *pflag.FlagSet
 
-	cmd := &cobra.Command{
-		Use:   "run",
-		Short: "Run MicroShift",
-		RunE: func(cmd *cobra.Command, args []string) error {
-			return RunMicroshift(cfg, cmd.Flags())
-		},
-	}
+	cmd := controllercmd.
+		NewControllerCommandConfig("microshift", version.Get(), func(ctx context.Context, controllerContext *controllercmd.ControllerContext) error {
+			if err := cfg.ReadAndValidate(flags); err != nil {
+				klog.Fatalf("Error in reading and validating flags", err)
+			}
+			return RunMicroshift(cfg, controllerContext)
+		}).NewCommandWithContext(ctx)
+	cmd.Use = "run"
+	cmd.Short = "Run MicroShift"
 
-	flags := cmd.Flags()
+	flags = cmd.Flags()
 	// Read the config flag directly into the struct, so it's immediately available.
 	flags.StringVar(&cfg.ConfigFile, "config", cfg.ConfigFile, "File to read configuration from.")
 	cmd.MarkFlagFilename("config", "yaml", "yml")
@@ -51,12 +55,7 @@ func NewRunMicroshiftCommand() *cobra.Command {
 	return cmd
 }
 
-func RunMicroshift(cfg *config.MicroshiftConfig, flags *pflag.FlagSet) error {
-
-	if err := cfg.ReadAndValidate(flags); err != nil {
-		klog.Fatalf("Error in reading and validating flags", err)
-	}
-
+func RunMicroshift(cfg *config.MicroshiftConfig, controllerContext *controllercmd.ControllerContext) error {
 	// fail early if we don't have enough privileges
 	if config.StringInList("node", cfg.Roles) && os.Geteuid() > 0 {
 		klog.Fatalf("Microshift must be run privileged for role 'node'")

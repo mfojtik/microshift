@@ -26,7 +26,7 @@ require (
 	k8s.io/cli-runtime v0.23.1
 	k8s.io/client-go v0.23.1
 	k8s.io/component-base v0.23.1
-	k8s.io/controller-manager v0.23.1
+	k8s.io/controller-manager v0.23.1 // indirect
 	k8s.io/klog/v2 v2.40.1
 	k8s.io/kube-aggregator v0.23.1 // indirect
 	k8s.io/kube-openapi v0.0.0-20211115234752-e816edb12b65
@@ -34,6 +34,8 @@ require (
 	k8s.io/kubernetes v1.23.1
 	sigs.k8s.io/yaml v1.2.0
 )
+
+require github.com/openshift/library-go v0.0.0-20220331194700-379bd5d96d88
 
 require (
 	cloud.google.com/go v0.81.0 // indirect
@@ -168,7 +170,6 @@ require (
 	github.com/opencontainers/runtime-spec v1.0.3-0.20210326190908-1c3f411f0417 // indirect
 	github.com/opencontainers/selinux v1.8.2 // indirect
 	github.com/openshift/apiserver-library-go v0.0.0-20211209162547-8c11dbc46b6e // indirect
-	github.com/openshift/library-go v0.0.0-20220331194700-379bd5d96d88 // indirect
 	github.com/openshift/runtime-utils v0.0.0-20200415173359-c45d4ff3f912 // indirect
 	github.com/peterbourgon/diskv v2.0.1+incompatible // indirect
 	github.com/pkg/profile v1.3.0 // indirect

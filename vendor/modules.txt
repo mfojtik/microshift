@@ -939,10 +939,14 @@ github.com/openshift/library-go/pkg/build/envresolve
 github.com/openshift/library-go/pkg/build/naming
 github.com/openshift/library-go/pkg/client/openshiftrestmapper
 github.com/openshift/library-go/pkg/config/client
+github.com/openshift/library-go/pkg/config/clusterstatus
 github.com/openshift/library-go/pkg/config/configdefaults
 github.com/openshift/library-go/pkg/config/helpers
 github.com/openshift/library-go/pkg/config/leaderelection
+github.com/openshift/library-go/pkg/config/serving
 github.com/openshift/library-go/pkg/config/validation
+github.com/openshift/library-go/pkg/controller/controllercmd
+github.com/openshift/library-go/pkg/controller/fileobserver
 github.com/openshift/library-go/pkg/crypto
 github.com/openshift/library-go/pkg/image/imageutil
 github.com/openshift/library-go/pkg/image/internal/digest
@@ -953,6 +957,7 @@ github.com/openshift/library-go/pkg/image/trigger
 github.com/openshift/library-go/pkg/monitor/health
 github.com/openshift/library-go/pkg/network
 github.com/openshift/library-go/pkg/oauth/oauthdiscovery
+github.com/openshift/library-go/pkg/operator/events
 github.com/openshift/library-go/pkg/quota/clusterquotamapping
 github.com/openshift/library-go/pkg/quota/quotautil
 github.com/openshift/library-go/pkg/security/ldaputil
@@ -2288,7 +2293,10 @@ k8s.io/component-base/logs/registry
 k8s.io/component-base/logs/sanitization
 k8s.io/component-base/metrics
 k8s.io/component-base/metrics/legacyregistry
+k8s.io/component-base/metrics/prometheus/clientgo
+k8s.io/component-base/metrics/prometheus/clientgo/leaderelection
 k8s.io/component-base/metrics/prometheus/ratelimiter
+k8s.io/component-base/metrics/prometheus/restclient
 k8s.io/component-base/metrics/prometheus/workqueue
 k8s.io/component-base/metrics/testutil
 k8s.io/component-base/term
